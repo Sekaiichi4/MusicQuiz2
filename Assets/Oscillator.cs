@@ -67,30 +67,30 @@ public class Oscillator : MonoBehaviour
         volumes[4] = new float[7] {-52.257f,-32.257f,-12.257f,0.000f,0.000f,0.000f,0.000f};         //Dsf
         volumes[5] = new float[7] {-51.612f,-31.612f,-11.612f,0.000f,0.000f,0.000f,0.000f};         //D
         volumes[6] = new float[7] {-50.966f,-30.966f,-10.966f,0.000f,0.000f,0.000f,0.000f};         //Dssh
-        volumes[7] = new float[7] {-50.321f,-30.321f,-10.321f,0.000f,0.000f,0.000f,0.000f};       //Dsh
-        volumes[8] = new float[7] {1, 1, 1, 1, 1, 1, 1};       //Ef
-        volumes[9] = new float[7] {1, 1, 1, 1, 1, 1, 1};       //Esf
-        volumes[10] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //E
-        volumes[11] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Ff
-        volumes[12] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Esh
-        volumes[13] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //F
-        volumes[14] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Fssh
-        volumes[15] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Fsh
-        volumes[16] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Gf
-        volumes[17] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Gsf
-        volumes[18] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //G
-        volumes[19] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Gssh
-        volumes[20] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Gsh
-        volumes[21] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Af
-        volumes[22] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Asf
-        volumes[23] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //A
-        volumes[24] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Assh
-        volumes[25] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Ash
-        volumes[26] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Bf
-        volumes[27] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Bsf
-        volumes[28] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //B
-        volumes[29] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Cf
-        volumes[30] = new float[7] {1, 1, 1, 1, 1, 1, 1};      //Bsh
+        volumes[7] = new float[7] {-50.321f,-30.321f,-10.321f,0.000f,0.000f,0.000f,0.000f};         //Dsh
+        volumes[8] = new float[7] {-49.676f,-29.676f,-9.676f,0.000f,0.000f,0.000f,0.000f};          //Ef
+        volumes[9] = new float[7] {-49.030f,-29.030f,-9.030f,0.000f,0.000f,0.000f,0.000f};          //Esf
+        volumes[10] = new float[7] {-48.387f,-28.387f,-8.387f,0.000f,0.000f,0.000f,0.000f};         //E
+        volumes[11] = new float[7] {-47.740f,-27.740f,-7.740f,0.000f,0.000f,0.000f,0.000f};         //Ff
+        volumes[12] = new float[7] {-47.095f,-27.095f,-7.095f,0.000f,0.000f,0.000f,0.000f};         //Esh
+        volumes[13] = new float[7] {-46.452f,-26.452f,-6.452f,0.000f,0.000f,0.000f,0.000f};         //F
+        volumes[14] = new float[7] {-45.806f,-25.806f,-5.806f,0.000f,0.000f,0.000f,0.000f};         //Fssh
+        volumes[15] = new float[7] {-45.159f,-25.159f,-5.159f,0.000f,0.000f,0.000f,0.000f};         //Fsh
+        volumes[16] = new float[7] {-44.514f,-24.514f,-4.514f,0.000f,0.000f,0.000f,0.000f};         //Gf
+        volumes[17] = new float[7] {-43.871f,-23.871f,-3.871f,0.000f,0.000f,0.000f,0.000f};         //Gsf
+        volumes[18] = new float[7] {-43.226f,-23.226f,-3.226f,0.000f,0.000f,0.000f,0.000f};         //G
+        volumes[19] = new float[7] {-42.580f,-22.580f,-2.580f,0.000f,0.000f,0.000f,0.000f};         //Gssh
+        volumes[20] = new float[7] {-41.934f,-21.934f,-1.934f,0.000f,0.000f,0.000f,0.000f};         //Gsh
+        volumes[21] = new float[7] {-41.290f,-21.290f,-1.290f,0.000f,0.000f,0.000f,0.000f};         //Af
+        volumes[22] = new float[7] {-40.645f,-20.645f,-0.645f,0.000f,0.000f,0.000f,0.000f};         //Asf
+        volumes[23] = new float[7] {-40.000f,-20.000f,0.000f,0.000f,0.000f,0.000f,0.000f};          //A
+        volumes[24] = new float[7] {-39.354f,-19.354f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Assh
+        volumes[25] = new float[7] {-38.710f,-18.710f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Ash
+        volumes[26] = new float[7] {-38.062f,-18.062f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Bf
+        volumes[27] = new float[7] {-37.417f,-17.417f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Bsf
+        volumes[28] = new float[7] {-36.773f,-16.773f,0.000f,0.000f,0.000f,0.000f,0.000f};          //B
+        volumes[29] = new float[7] {-36.127f,-16.127f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Cf
+        volumes[30] = new float[7] {-35.483f,-15.483f,0.000f,0.000f,0.000f,0.000f,0.000f};          //Bsh
 
     }
 
@@ -98,12 +98,12 @@ public class Oscillator : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            SetSound(volumes[thisFreq][shepardPos]);
             gain = volume; // / shepardTone.Length;
             frequency = frequencies[thisFreq];
             thisFreq += 1;
             thisFreq = thisFreq % frequencies.Length;
             shepardTones[0] = frequency;
-            SetSound(volumes[thisFreq][shepardPos]);
 
             for(int j = 1; j < shepardTones.Length; j++)
             {

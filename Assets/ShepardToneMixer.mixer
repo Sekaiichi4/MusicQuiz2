@@ -16,19 +16,19 @@ AudioMixerController:
   m_UpdateMode: 0
   m_ExposedParameters:
   - guid: fd9cb7f7257bea340b9f7f99b15ccc84
-    name: vol1
+    name: vol0
   - guid: 02f274f2d3d3a9f488bb3503c60f189d
-    name: vol2
+    name: vol1
   - guid: 78c3d1b3f158ae34991b8771831367a6
-    name: vol3
+    name: vol2
   - guid: dc77cb4959c74f54e9e55851344447d2
-    name: vol4
+    name: vol3
   - guid: 06df6a63d38ebdf458fc6944a7d19945
-    name: vol5
+    name: vol4
   - guid: e1304ac6530286247a38fcdc700e5fac
-    name: vol6
+    name: vol5
   - guid: 405267bd890b6d8409234fc5cee132b2
-    name: vol7
+    name: vol6
   m_AudioMixerGroupViews:
   - guids:
     - 4f18c91d0db82be4f8c952fd9285e308
@@ -95,7 +95,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 5
+  m_Name: 4
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: ba3d59c8393c1254d85a5003bec468bf
   m_Children: []
@@ -112,7 +112,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 6
+  m_Name: 5
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 66ffc27eed038a34db9e7292eb26c460
   m_Children: []
@@ -129,7 +129,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 1
+  m_Name: 0
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: ce996b223b8c6f44c9ab3cfc583cc192
   m_Children: []
@@ -146,7 +146,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 7
+  m_Name: 6
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 9e195fbaa53775a4fbcc0fc2e6e3918e
   m_Children: []
@@ -163,7 +163,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 3
+  m_Name: 2
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: c108e521629231646b1c5d83902b016c
   m_Children: []
@@ -180,7 +180,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 2
+  m_Name: 1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 284cda393d7c9d64bb34061c4ab6f4c9
   m_Children: []
@@ -197,7 +197,7 @@ AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 4
+  m_Name: 3
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 8a06783309991bf4aa3e47f85ba57a6a
   m_Children: []
