@@ -7,7 +7,7 @@ public class Oscillator : MonoBehaviour
     public double frequency;
     private double increment;
     private double phase;
-    private double sampling_frequency = 48000.0;
+    private double sampling_frequency = 44100.0;
 
     public float gain;
     public float volume;
@@ -96,27 +96,50 @@ public class Oscillator : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            SetSound(volumes[thisFreq][shepardPos]);
-            gain = volume; // / shepardTone.Length;
-            frequency = frequencies[thisFreq];
-            thisFreq += 1;
-            thisFreq = thisFreq % frequencies.Length;
-            shepardTones[0] = frequency;
+        // if(Input.GetKeyDown(KeyCode.Space))
+        // {
+        //     SetSound(volumes[thisFreq][shepardPos]);
+        //     gain = volume; // / shepardTone.Length;
+        //     frequency = frequencies[thisFreq];
+        //     thisFreq += 1;
+        //     thisFreq = thisFreq % frequencies.Length;
+        //     shepardTones[0] = frequency;
 
-            for(int j = 1; j < shepardTones.Length; j++)
-            {
-                shepardTones[j] = shepardTones[j-1] * 2;
-            }
-        }
+        //     for(int j = 1; j < shepardTones.Length; j++)
+        //     {
+        //         shepardTones[j] = shepardTones[j-1] * 2;
+        //     }
+        // }
         
+        // frequency = shepardTones[shepardPos];
+
+        // if(Input.GetKeyUp(KeyCode.Space))
+        // {
+        //     gain = 0;
+        // }
+    }
+
+    public void PlayTune(int _pos)
+    {
+        thisFreq = _pos;
+        SetSound(volumes[thisFreq][shepardPos]);
+        frequency = frequencies[thisFreq];
+        //thisFreq = thisFreq % frequencies.Length;
+        shepardTones[0] = frequency;
+
+        for(int j = 1; j < shepardTones.Length; j++)
+        {
+            shepardTones[j] = shepardTones[j-1] * 2;
+        }
+
         frequency = shepardTones[shepardPos];
 
-        if(Input.GetKeyUp(KeyCode.Space))
-        {
-            gain = 0;
-        }
+        gain = volume; 
+    }
+
+    public void StopPlaying()
+    {
+        gain = 0;
     }
 
     /// <summary>

@@ -189,8 +189,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -311,8 +311,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -433,8 +433,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -631,8 +631,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1087,8 +1087,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1617,8 +1617,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1932,6 +1932,7 @@ GameObject:
   - component: {fileID: 1618079350}
   - component: {fileID: 1618079349}
   - component: {fileID: 1618079348}
+  - component: {fileID: 1618079351}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1984,6 +1985,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1618079351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1618079347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13513b7a0a8bdf248ab4df8ee7c125c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oscillators:
+  - {fileID: 2017792170}
+  - {fileID: 717580356}
+  - {fileID: 907134587}
+  - {fileID: 1066866914}
+  - {fileID: 1921576264}
+  - {fileID: 1455789107}
+  - {fileID: 1121793686}
+  availablePositions: 
+  level: 0
+  currentRandom: 0
+  playing: 0
 --- !u!1 &1731505015
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,8 +2536,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: NextMelody
+      - m_Target: {fileID: 1618079351}
+        m_MethodName: NextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2558,3 +2582,9 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2004112953}
+--- !u!114 &2017792170 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114367915955100572, guid: 536558cff0de41d49a92f49920a3b315,
+    type: 2}
+  m_PrefabInternal: {fileID: 1464524215}
+  m_Script: {fileID: 11500000, guid: eefd4d35bb278fc48bdb51e831f22f4a, type: 3}
