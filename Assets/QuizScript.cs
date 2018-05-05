@@ -24,7 +24,7 @@ public class QuizScript : MonoBehaviour
 		NewRandom();
 	}
 
-	public void NextLevel()
+	public void NextLevel(string _rating)
 	{
 		//Analytics stuff calling
 		//....
@@ -32,6 +32,7 @@ public class QuizScript : MonoBehaviour
 		availablePositions[currentRandom] = false;
 		level++;
 		NewRandom();
+		CsvReadWrite.Instance.Save(currentRandom, _rating);
 	}
 
 	void NewRandom()
