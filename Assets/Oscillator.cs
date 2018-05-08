@@ -11,6 +11,7 @@ public class Oscillator : MonoBehaviour
 
     public float gain;
     public float volume;
+    public float currentMixerVolume;
 
     public float[] frequencies;
     private float[][] volumes;
@@ -134,7 +135,9 @@ public class Oscillator : MonoBehaviour
 
         frequency = shepardTones[shepardPos];
 
-        gain = volume; 
+ 
+        gain = volume;
+        
     }
 
     public void StopPlaying()
@@ -174,7 +177,7 @@ public class Oscillator : MonoBehaviour
     }
 
     public void SetSound(float soundLevel)
-    {
+    {  
         shepardMixer.SetFloat ("vol" + shepardPos, soundLevel);
     }
 }

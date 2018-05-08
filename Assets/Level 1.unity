@@ -706,6 +706,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []
@@ -910,6 +911,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []
@@ -1310,6 +1312,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []
@@ -1440,6 +1443,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []
@@ -1773,6 +1777,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []
@@ -2007,6 +2012,8 @@ MonoBehaviour:
   level: 0
   currentRandom: 0
   playing: 0
+  normal: {fileID: 24500006, guid: 1cfd0eb2f73a0b14681e24c0a7214e1b, type: 2}
+  muted: {fileID: 245544912095863834, guid: 1cfd0eb2f73a0b14681e24c0a7214e1b, type: 2}
 --- !u!114 &1618079352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2223,6 +2230,7 @@ MonoBehaviour:
   frequency: 0
   gain: 0
   volume: 0
+  currentMixerVolume: 0
   frequencies: []
   thisFreq: 0
   shepardTones: []

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+
 
 public class QuizScript : MonoBehaviour 
 {
@@ -10,11 +12,16 @@ public class QuizScript : MonoBehaviour
 	public int currentRandom;
 	public bool playing;
 
+	public AudioMixerSnapshot normal;
+	public AudioMixerSnapshot muted;
+
+
 	// Use this for initialization
 	void Start () 
 	{
 		level = 1;
 		playing = false;
+		muted.TransitionTo(0.5f);
 
 		for (int i = 0; i < 31; i++)
 		{
@@ -71,23 +78,31 @@ public class QuizScript : MonoBehaviour
 			for(int i = 0; i < oscillators.Count; i++)
 			{
 				oscillators[i].PlayTune(j);
+				normal.TransitionTo(0.5f);
 			}
+			yield return oneSec;
+			yield return halfSec;
+			muted.TransitionTo(0.5f);
 			yield return halfSec;
 
-			for(int i = 0; i < oscillators.Count; i++)
-			{
-				oscillators[i].StopPlaying();
-			}
-			yield return quarterSec;
+			// for(int i = 0; i < oscillators.Count; i++)
+			// {
+			// 	oscillators[i].StopPlaying();
+			// }
+			//yield return quarterSec;
 		}
 
 		//Play the random one
 
 		for(int i = 0; i < oscillators.Count; i++)
 		{
+			normal.TransitionTo(0.5f);
 			oscillators[i].PlayTune(currentRandom);
 		}
 		yield return oneSec;
+		yield return halfSec;
+		muted.TransitionTo(0.5f);
+		yield return halfSec;
 
 		for(int i = 0; i < oscillators.Count; i++)
 		{
