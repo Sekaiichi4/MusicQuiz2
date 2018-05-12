@@ -68,6 +68,7 @@ public class QuizScript : MonoBehaviour
 
 	IEnumerator playLoop()
 	{
+		WaitForSeconds tenthSec = new WaitForSeconds(0.1f);
 		WaitForSeconds quarterSec = new WaitForSeconds(0.25f);
 		WaitForSeconds halfSec = new WaitForSeconds(0.5f);
 		WaitForSeconds oneSec = new WaitForSeconds(1);
@@ -78,12 +79,13 @@ public class QuizScript : MonoBehaviour
 			for(int i = 0; i < oscillators.Count; i++)
 			{
 				oscillators[i].PlayTune(j);
-				normal.TransitionTo(0.5f);
+				normal.TransitionTo(1f);
 			}
 			yield return oneSec;
 			yield return halfSec;
-			muted.TransitionTo(0.5f);
+			muted.TransitionTo(1f);
 			yield return halfSec;
+
 
 			// for(int i = 0; i < oscillators.Count; i++)
 			// {
