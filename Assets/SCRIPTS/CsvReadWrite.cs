@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System;
 
-public class CsvReadWrite : Singleton<CsvReadWrite> {
+public class CsvReadWrite : MonoBehaviour {
     
     private List<string[]> rowData = new List<string[]>();
 	private string[] noteNames = {"C" ,"Cssh" ,"Csh" ,"Df" ,"Dsf" ,"D" ,"Dssh" ,"Dsh" ,"Ef" ,"Esf" ,"E" ,"Ff" ,"Esh" ,"F" ,"Fssh" ,"Fsh" ,"Gf" ,"Gsf" ,"G" ,"Gssh" ,"Gsh" ,"Af" ,"Asf" ,"A" ,"Assh" ,"Ash" ,"Bf" ,"Bsf" ,"B" ,"Cf" ,"Bsh"};

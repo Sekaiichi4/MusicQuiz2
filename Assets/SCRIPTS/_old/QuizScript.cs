@@ -11,6 +11,7 @@ public class QuizScript : MonoBehaviour
 	public int level;
 	public int currentRandom;
 	public bool playing;
+	private CsvReadWrite csvWriter;
 
 	public AudioMixerSnapshot normal;
 	public AudioMixerSnapshot muted;
@@ -39,7 +40,7 @@ public class QuizScript : MonoBehaviour
 		availablePositions[currentRandom] = false;
 		level++;
 		NewRandom();
-		CsvReadWrite.Instance.Save(currentRandom, _rating);
+		csvWriter.Save(currentRandom, _rating);
 	}
 
 	void NewRandom()
