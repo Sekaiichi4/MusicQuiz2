@@ -40,7 +40,7 @@ public class QuizScript : MonoBehaviour
 		availablePositions[currentRandom] = false;
 		level++;
 		NewRandom();
-		csvWriter.Save(currentRandom, _rating);
+		csvWriter.Save(currentRandom.ToString(), _rating);
 	}
 
 	void NewRandom()

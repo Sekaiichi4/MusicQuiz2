@@ -13,9 +13,13 @@ public class MusicPlayer : MonoBehaviour
 	public Text title;
 	public bool isTutorial;
 
+	private string[] noteNames = { 	"majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
+									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsf",
+									"majorEssh","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};	
+	private List<Song> majorList = new List<Song>();
+	private int randomInt;
 
 	private AudioSource audioSource;
-	public int position;
 
 	private CsvReadWrite csvWriter;
 
@@ -26,29 +30,64 @@ public class MusicPlayer : MonoBehaviour
 
 		if(!isTutorial)
 		{
+			InitDatabase();
 			csvWriter = GetComponent<CsvReadWrite>();
 			SetTitle();
 		}	
 	}
 
+	public void InitDatabase()
+	{
+		for(int j = 0; j < 31; j++)
+		{
+			for(int i = 1; i <= 31; i++)
+			{
+				AudioClip tune = (AudioClip) Resources.Load("Sounds/major/" + noteNames[j] + "/" + noteNames[j] +i);
+				Song currentSong = new Song(tune, false, "name");
+				majorList.Add(currentSong);
+				Debug.Log("Added " + tune.name);
+			}
+		}
+		
+	}
+
+
 	public void PlaySong()
 	{
-		playButton.SetActive(false);
-		AudioClip currentClip = (AudioClip) Resources.Load("Sounds/"+position);
-		Invoke("GetRatingScreen", currentClip.length+0.25f);
-		
-		audioSource.PlayOneShot(currentClip); 
+		if(!isTutorial)
+		{
+			randomInt = Random.Range(0, majorList.Count);
+			
+			while(majorList[randomInt].played)
+			{
+				randomInt = Random.Range(0, majorList.Count);
+			}
+
+			playButton.SetActive(false);
+			AudioClip currentTune = majorList[randomInt].audio; //Get audio from list at random 
+			majorList[randomInt].played = true;					//and enable the bool
+			Invoke("GetRatingScreen", currentTune.length+0.25f);
+			
+			audioSource.PlayOneShot(currentTune); 
+		}
+		else
+		{
+			AudioClip currentTune = (AudioClip) Resources.Load("Sounds/1"); 
+			Invoke("GetRatingScreen", currentTune.length+0.25f);
+			
+			audioSource.PlayOneShot(currentTune); 
+		}
 	}
 
 	public void SendRating (string _rating) 
 	{
-		csvWriter.Save(position, _rating);
+		csvWriter.Save(majorList[randomInt].name, _rating);
 		GetPlayingScreen();
 	}
 
 	void SetTitle()
 	{
-		title.text = "Trial " + position.ToString();
+		title.text = "Trial " + randomInt.ToString();
 	}
 
 	void GetRatingScreen()
@@ -68,7 +107,7 @@ public class MusicPlayer : MonoBehaviour
 
 	void NextMelody()
 	{
-		position++;
+		randomInt = Random.Range(0, majorList.Count);
 	}
 
 }

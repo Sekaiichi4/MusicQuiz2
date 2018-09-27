@@ -8,9 +8,9 @@ using System;
 public class CsvReadWrite : MonoBehaviour {
     
     private List<string[]> rowData = new List<string[]>();
-	private string[] noteNames = {"C" ,"Cssh" ,"Csh" ,"Df" ,"Dsf" ,"D" ,"Dssh" ,"Dsh" ,"Ef" ,"Esf" ,"E" ,"Ff" ,"Esh" ,"F" ,"Fssh" ,"Fsh" ,"Gf" ,"Gsf" ,"G" ,"Gssh" ,"Gsh" ,"Af" ,"Asf" ,"A" ,"Assh" ,"Ash" ,"Bf" ,"Bsf" ,"B" ,"Cf" ,"Bsh"};
+	//private string[] noteNames = {"C" ,"Cssh" ,"Csh" ,"Df" ,"Dsf" ,"D" ,"Dssh" ,"Dsh" ,"Ef" ,"Esf" ,"E" ,"Ff" ,"Esh" ,"F" ,"Fssh" ,"Fsh" ,"Gf" ,"Gsf" ,"G" ,"Gssh" ,"Gsh" ,"Af" ,"Asf" ,"A" ,"Assh" ,"Ash" ,"Bf" ,"Bsf" ,"B" ,"Cf" ,"Bsh"};
        
-    public void Save(int note, string score)
+    public void Save(string name, string score)
 	{
         // Creating First row of titles manually..
         string[] rowDataTemp = new string[2];
@@ -19,7 +19,7 @@ public class CsvReadWrite : MonoBehaviour {
         rowData.Add(rowDataTemp);
 
 		rowDataTemp = new string[2];
-		rowDataTemp[0] = noteNames[note]; // Note name
+		rowDataTemp[0] = name; // Note name
 		rowDataTemp[1] = score; // Score given by the listener.
 		rowData.Add(rowDataTemp);
 
