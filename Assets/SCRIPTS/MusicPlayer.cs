@@ -43,7 +43,7 @@ public class MusicPlayer : MonoBehaviour
 			for(int i = 1; i <= 31; i++)
 			{
 				AudioClip tune = (AudioClip) Resources.Load("Sounds/major/" + noteNames[j] + "/" + noteNames[j] +i);
-				Song currentSong = new Song(tune, false, "name");
+				Song currentSong = new Song(tune, false, tune.name);
 				majorList.Add(currentSong);
 				Debug.Log("Added " + tune.name);
 			}
