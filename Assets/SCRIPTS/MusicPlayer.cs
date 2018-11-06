@@ -11,12 +11,17 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject playButton;
 	public GameObject ratingScreen;
 	public Text title;
-	public bool isTutorial;
+	public bool isTutorial, isMajor, isMinor;
 
-	private string[] noteNames = { 	"majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
-									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsf",
-									"majorEssh","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};	
-	private List<Song> majorList = new List<Song>();
+	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
+									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
+									"majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};	
+	
+	private string[] minorNames = { "minorA","minorAf","minorAsf","minorAsh","minorAssh","minorB","minorBf","minorBsf","minorBsshCf","minorC","minorCsfBsh",
+									"minorCsh","minorCssh","minorD","minorDf","minorDsf","minorDsh","minorDssh","minorE","minorEf","minorEsf","minorFsfEsh",
+									"minorEsshFf","minorF","minorFsh","minorFssh","minorG","minorGf","minorGsf","minorGsh","minorGssh"};	
+	private List<Song> currentList = new List<Song>();
+
 	private int randomInt;
 
 	private AudioSource audioSource;
@@ -26,6 +31,7 @@ public class MusicPlayer : MonoBehaviour
 
 	void Start()
 	{
+		MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
 		audioSource = GetComponent<AudioSource>();
 
 		if(!isTutorial)
@@ -38,41 +44,82 @@ public class MusicPlayer : MonoBehaviour
 
 	public void InitDatabase()
 	{
+		//MAJOR
 		for(int j = 0; j < 31; j++)
 		{
 			for(int i = 1; i <= 31; i++)
 			{
-				AudioClip tune = (AudioClip) Resources.Load("Sounds/major/" + noteNames[j] + "/" + noteNames[j] +i);
-				Song currentSong = new Song(tune, false, tune.name);
-				majorList.Add(currentSong);
-				Debug.Log("Added " + tune.name);
+				AudioClip tune;
+
+				if (isMajor)
+				{
+					tune = (AudioClip) Resources.Load("Sounds/major/" + majorNames
+					[j] + "/" + majorNames
+					[j] +i);
+					Song currentSong = new Song(tune, false, tune.name);
+					currentList.Add(currentSong);
+					Debug.Log("Added " + tune.name);
+				}
+				else if (isMinor)
+				{
+					tune = (AudioClip) Resources.Load("Sounds/minor/" + minorNames
+					[j] + "/" + minorNames
+					[j] +i);
+					Song currentSong = new Song(tune, false, tune.name);
+					currentList.Add(currentSong);
+					Debug.Log("Added " + tune.name);
+				}
 			}
 		}
-		
+	}
+
+	void MajorOrMinor(int i)
+	{
+		if(i == 0)
+		{
+			isMajor = true;
+			isMinor = false;
+		}
+		else if(i == 1)
+		{
+			isMinor = true;
+			isMajor = false;
+		}
 	}
 
 
 	public void PlaySong()
 	{
+
 		if(!isTutorial)
 		{
-			randomInt = Random.Range(0, majorList.Count);
+			randomInt = Random.Range(0, currentList.Count);
 			
-			while(majorList[randomInt].played)
+			while(currentList[randomInt].played)
 			{
-				randomInt = Random.Range(0, majorList.Count);
+				randomInt = Random.Range(0, currentList.Count);
 			}
 
 			playButton.SetActive(false);
-			AudioClip currentTune = majorList[randomInt].audio; //Get audio from list at random 
-			majorList[randomInt].played = true;					//and enable the bool
+			AudioClip currentTune = currentList[randomInt].audio; //Get audio from list at random 
+			currentList[randomInt].played = true;					//and enable the bool
 			Invoke("GetRatingScreen", currentTune.length+0.25f);
 			
 			audioSource.PlayOneShot(currentTune); 
 		}
 		else
 		{
-			AudioClip currentTune = (AudioClip) Resources.Load("Sounds/1"); 
+			string demoName = " ";
+
+			if (isMajor)
+			{
+				demoName = "Sounds/0";
+			}
+			else
+			{
+				demoName = "Sounds/1";
+			}
+			AudioClip currentTune = (AudioClip) Resources.Load(demoName); 
 			Invoke("GetRatingScreen", currentTune.length+0.25f);
 			
 			audioSource.PlayOneShot(currentTune); 
@@ -81,7 +128,7 @@ public class MusicPlayer : MonoBehaviour
 
 	public void SendRating (string _rating) 
 	{
-		csvWriter.Save(majorList[randomInt].name, _rating);
+		csvWriter.Save(currentList[randomInt].name, _rating);
 		GetPlayingScreen();
 	}
 
@@ -107,7 +154,7 @@ public class MusicPlayer : MonoBehaviour
 
 	void NextMelody()
 	{
-		randomInt = Random.Range(0, majorList.Count);
+		randomInt = Random.Range(0, currentList.Count);
 	}
 
 }

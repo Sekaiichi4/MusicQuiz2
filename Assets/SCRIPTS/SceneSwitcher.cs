@@ -11,6 +11,11 @@ public class SceneSwitcher : MonoBehaviour
 		Debug.Log("PRESSED");
 		SceneManager.LoadScene(_name);
 	}
+
+	public void DecideStart(int i)
+	{
+		PlayerPrefs.SetInt("MajorOrMinor", i);
+	}
 }
 
 	
