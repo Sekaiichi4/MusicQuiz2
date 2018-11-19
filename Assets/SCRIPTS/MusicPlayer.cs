@@ -11,7 +11,8 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject playButton;
 	public GameObject ratingScreen;
 	public Text title;
-	public bool isListening, isPractise, isMajor, isMinor;
+	public GameObject breakScreen;
+	public bool isListening, isPractise, isMajor, isMinor, hadBreak;
 	public int indexListening, indexPractise, index;
 
 	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
@@ -38,9 +39,12 @@ public class MusicPlayer : MonoBehaviour
 		index = 0;
 		indexListening = 0;
 		indexPractise = 0;
+		hadBreak = false;
 
 		csvWriter = GetComponent<CsvReadWrite>();
 		SetTitle();	
+
+		//todo: Let CSVWRITER print the first line through a method or something.
 	}
 
 	public void InitDatabase()
@@ -74,21 +78,6 @@ public class MusicPlayer : MonoBehaviour
 		}
 	}
 
-	void MajorOrMinor(int i)
-	{
-		if(i == 0)
-		{
-			isMajor = true;
-			isMinor = false;
-		}
-		else if(i == 1)
-		{
-			isMinor = true;
-			isMajor = false;
-		}
-	}
-
-
 	public void PlaySong()
 	{
 		if(isListening)
@@ -99,6 +88,11 @@ public class MusicPlayer : MonoBehaviour
 			if(indexListening == 9)
 			{
 				isListening = false;
+
+				if(hadBreak == false)
+				{
+					isPractise = true;
+				}
 			}
 			Invoke("GetPlayingScreen", currentTune.length+0.25f);
 
@@ -127,6 +121,7 @@ public class MusicPlayer : MonoBehaviour
 			playButton.SetActive(false);
 			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
 			currentList[randomInt].played = true;					//and enable the bool
+
 			Invoke("GetRatingScreen", currentTune.length+0.25f);
 			
 			audioSource.PlayOneShot(currentTune); 
@@ -148,7 +143,40 @@ public class MusicPlayer : MonoBehaviour
 		{
 			csvWriter.Save(currentList[randomInt].name, _rating);
 			index++;
-			GetPlayingScreen();
+
+			if(index == 191) 
+			{
+				GetBreakScreen();
+			}
+			else if(index == 384) 
+			{
+				//GetFinishScene();
+			}
+			else
+			{
+				GetPlayingScreen();
+			}
+		}
+	}
+
+	public void EndBreak()
+	{
+		breakScreen.SetActive(false);
+		GetPlayingScreen();
+		hadBreak = true;
+	}
+
+	void MajorOrMinor(int i)
+	{
+		if(i == 0)
+		{
+			isMajor = true;
+			isMinor = false;
+		}
+		else if(i == 1)
+		{
+			isMinor = true;
+			isMajor = false;
 		}
 	}
 
@@ -156,15 +184,15 @@ public class MusicPlayer : MonoBehaviour
 	{
 		if(isListening)
 		{
-			title.text = "Listening";
+			title.text = "Listening " + (indexListening+1).ToString() + "/10";
 		}
 		else if(isPractise)
 		{
-			title.text = "Practise";
+			title.text = "Practise " + (indexPractise+1).ToString() + "/10";
 		}
 		else
 		{
-			title.text = "Trial";
+			title.text = "Trial " + (index+1).ToString() + "/385";
 		}
 	}
 
@@ -172,15 +200,22 @@ public class MusicPlayer : MonoBehaviour
 	{
 		playingScreen.SetActive(false);
 		ratingScreen.SetActive(true);
-		playButton.SetActive(true);
 	}
 
 	void GetPlayingScreen()
 	{
+		playButton.SetActive(true);
 		NextMelody();
 		ratingScreen.SetActive(false);
 		SetTitle();
 		playingScreen.SetActive(true);
+	}
+
+	void GetBreakScreen()
+	{
+		playingScreen.SetActive(false);
+		ratingScreen.SetActive(false);
+		breakScreen.SetActive(true);
 	}
 
 	void NextMelody()
