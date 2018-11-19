@@ -42,6 +42,7 @@ public class MusicPlayer : MonoBehaviour
 		hadBreak = false;
 
 		csvWriter = GetComponent<CsvReadWrite>();
+		csvWriter.Save("Note", "Score");
 		SetTitle();	
 
 		//todo: Let CSVWRITER print the first line through a method or something.
@@ -144,11 +145,11 @@ public class MusicPlayer : MonoBehaviour
 			csvWriter.Save(currentList[randomInt].name, _rating);
 			index++;
 
-			if(index == 191) 
+			if(index == 192) 
 			{
 				GetBreakScreen();
 			}
-			else if(index == 384) 
+			else if(index == 385) 
 			{
 				//GetFinishScene();
 			}

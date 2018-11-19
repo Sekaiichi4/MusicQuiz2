@@ -12,11 +12,12 @@ public class CsvReadWrite : MonoBehaviour {
        
     public void Save(string name, string score)
 	{
+        string[] rowDataTemp;
+
         // Creating First row of titles manually..
-        string[] rowDataTemp = new string[2];
-        rowDataTemp[0] = "Note";
-        rowDataTemp[1] = "Score";
-        rowData.Add(rowDataTemp);
+        // rowDataTemp[0] = "Note";
+        // rowDataTemp[1] = "Score";
+        // rowData.Add(rowDataTemp);
 
 		rowDataTemp = new string[2];
 		rowDataTemp[0] = name; // Note name
