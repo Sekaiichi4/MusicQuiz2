@@ -9,8 +9,9 @@ EditorBuildSettings:
     path: Assets/_SCENES/StartMenu.unity
     guid: cea9a270beaf7394dbdba2717bbf2bc9
   - enabled: 1
-    path: Assets/_SCENES/Tutorial.unity
+    path: Assets/_SCENES/Practise.unity
     guid: 51e8cc186d36ae749b8f259f57673cd2
   - enabled: 1
     path: Assets/_SCENES/PlayLevel.unity
     guid: 26225a4b33b5aec48ac262836e87a832
+  m_configObjects: {}

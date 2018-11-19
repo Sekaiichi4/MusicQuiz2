@@ -11,7 +11,8 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject playButton;
 	public GameObject ratingScreen;
 	public Text title;
-	public bool isTutorial, isMajor, isMinor;
+	public bool isListening, isPractise, isMajor, isMinor;
+	public int indexListening, indexPractise, index;
 
 	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
 									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
@@ -33,13 +34,13 @@ public class MusicPlayer : MonoBehaviour
 	{
 		MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
 		audioSource = GetComponent<AudioSource>();
+		InitDatabase();
+		index = 0;
+		indexListening = 0;
+		indexPractise = 0;
 
-		if(!isTutorial)
-		{
-			InitDatabase();
-			csvWriter = GetComponent<CsvReadWrite>();
-			SetTitle();
-		}	
+		csvWriter = GetComponent<CsvReadWrite>();
+		SetTitle();	
 	}
 
 	public void InitDatabase()
@@ -90,8 +91,31 @@ public class MusicPlayer : MonoBehaviour
 
 	public void PlaySong()
 	{
+		if(isListening)
+		{
+			playButton.SetActive(false);
+			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
 
-		if(!isTutorial)
+			if(indexListening == 9)
+			{
+				isListening = false;
+			}
+			Invoke("GetPlayingScreen", currentTune.length+0.25f);
+
+			indexListening++;
+			
+			audioSource.PlayOneShot(currentTune); 
+		}
+		else if(isPractise)
+		{
+			playButton.SetActive(false);
+			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
+
+			Invoke("GetRatingScreen", currentTune.length+0.25f);
+			
+			audioSource.PlayOneShot(currentTune); 
+		}
+		else
 		{
 			randomInt = Random.Range(0, currentList.Count);
 			
@@ -101,25 +125,8 @@ public class MusicPlayer : MonoBehaviour
 			}
 
 			playButton.SetActive(false);
-			AudioClip currentTune = currentList[randomInt].audio; //Get audio from list at random 
+			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
 			currentList[randomInt].played = true;					//and enable the bool
-			Invoke("GetRatingScreen", currentTune.length+0.25f);
-			
-			audioSource.PlayOneShot(currentTune); 
-		}
-		else
-		{
-			string demoName = " ";
-
-			if (isMajor)
-			{
-				demoName = "Sounds/0";
-			}
-			else
-			{
-				demoName = "Sounds/1";
-			}
-			AudioClip currentTune = (AudioClip) Resources.Load(demoName); 
 			Invoke("GetRatingScreen", currentTune.length+0.25f);
 			
 			audioSource.PlayOneShot(currentTune); 
@@ -128,13 +135,37 @@ public class MusicPlayer : MonoBehaviour
 
 	public void SendRating (string _rating) 
 	{
-		csvWriter.Save(currentList[randomInt].name, _rating);
-		GetPlayingScreen();
+		if(isPractise)
+		{
+			if(indexPractise == 9)
+			{
+				isPractise = false;
+			}
+			indexPractise++;
+			GetPlayingScreen();
+		}
+		else
+		{
+			csvWriter.Save(currentList[randomInt].name, _rating);
+			index++;
+			GetPlayingScreen();
+		}
 	}
 
 	void SetTitle()
 	{
-		title.text = "Trial " + randomInt.ToString();
+		if(isListening)
+		{
+			title.text = "Listening";
+		}
+		else if(isPractise)
+		{
+			title.text = "Practise";
+		}
+		else
+		{
+			title.text = "Trial";
+		}
 	}
 
 	void GetRatingScreen()
