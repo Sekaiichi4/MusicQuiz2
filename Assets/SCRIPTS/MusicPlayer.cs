@@ -12,8 +12,8 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject ratingScreen;
 	public Text title;
 	public GameObject breakScreen;
-	public bool isListening, isPractise, isMajor, isMinor, hadBreak;
-	public int indexListening, indexPractise, index;
+	public bool isListening, isPractise, isMajor, isMinor;
+	public int indexListening, indexPractise, index, hadBreaks;
 
 	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
 									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
@@ -39,7 +39,7 @@ public class MusicPlayer : MonoBehaviour
 		index = 0;
 		indexListening = 0;
 		indexPractise = 0;
-		hadBreak = false;
+		hadBreaks = 0;
 
 		csvWriter = GetComponent<CsvReadWrite>();
 		csvWriter.Save("Note", "Score");
@@ -90,7 +90,7 @@ public class MusicPlayer : MonoBehaviour
 			{
 				isListening = false;
 
-				if(hadBreak == false)
+				if(hadBreaks == 0)
 				{
 					isPractise = true;
 				}
@@ -145,11 +145,11 @@ public class MusicPlayer : MonoBehaviour
 			csvWriter.Save(currentList[randomInt].name, _rating);
 			index++;
 
-			if(index == 192) 
+			if(index == 192 || index == 192*2 || index == 192*3 || index == 192*4) 
 			{
 				GetBreakScreen();
 			}
-			else if(index == 385) 
+			else if(index == 961) 
 			{
 				//GetFinishScene();
 			}
@@ -164,7 +164,7 @@ public class MusicPlayer : MonoBehaviour
 	{
 		breakScreen.SetActive(false);
 		GetPlayingScreen();
-		hadBreak = true;
+		hadBreaks++;
 	}
 
 	void MajorOrMinor(int i)
@@ -193,7 +193,7 @@ public class MusicPlayer : MonoBehaviour
 		}
 		else
 		{
-			title.text = "Trial " + (index+1).ToString() + "/385";
+			title.text = "Trial " + (index+1).ToString() + "/961";
 		}
 	}
 
