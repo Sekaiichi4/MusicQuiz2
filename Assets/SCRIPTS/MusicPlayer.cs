@@ -12,8 +12,9 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject ratingScreen;
 	public Text title;
 	public GameObject breakScreen;
-	public bool isListening, isPractise, isMajor, isMinor;
-	public int indexListening, indexPractise, index, hadBreaks;
+	public GameObject finishScreen;
+	public bool isListening, isPractice, isMajor, isMinor;
+	public int indexListening, indexPractice, index, hadBreaks;
 
 	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
 									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
@@ -38,7 +39,7 @@ public class MusicPlayer : MonoBehaviour
 		InitDatabase();
 		index = 0;
 		indexListening = 0;
-		indexPractise = 0;
+		indexPractice = 0;
 		hadBreaks = 0;
 
 		csvWriter = GetComponent<CsvReadWrite>();
@@ -92,7 +93,7 @@ public class MusicPlayer : MonoBehaviour
 
 				if(hadBreaks == 0)
 				{
-					isPractise = true;
+					isPractice = true;
 				}
 			}
 			Invoke("GetPlayingScreen", currentTune.length+0.25f);
@@ -101,7 +102,7 @@ public class MusicPlayer : MonoBehaviour
 			
 			audioSource.PlayOneShot(currentTune); 
 		}
-		else if(isPractise)
+		else if(isPractice)
 		{
 			playButton.SetActive(false);
 			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
@@ -131,13 +132,13 @@ public class MusicPlayer : MonoBehaviour
 
 	public void SendRating (string _rating) 
 	{
-		if(isPractise)
+		if(isPractice)
 		{
-			if(indexPractise == 9)
+			if(indexPractice == 9)
 			{
-				isPractise = false;
+				isPractice = false;
 			}
-			indexPractise++;
+			indexPractice++;
 			GetPlayingScreen();
 		}
 		else
@@ -151,7 +152,7 @@ public class MusicPlayer : MonoBehaviour
 			}
 			else if(index == 961) 
 			{
-				//GetFinishScene();
+				GetFinishScreen();
 			}
 			else
 			{
@@ -163,6 +164,8 @@ public class MusicPlayer : MonoBehaviour
 	public void EndBreak()
 	{
 		breakScreen.SetActive(false);
+		indexListening = 0;
+		isListening = true;
 		GetPlayingScreen();
 		hadBreaks++;
 	}
@@ -187,9 +190,9 @@ public class MusicPlayer : MonoBehaviour
 		{
 			title.text = "Listening " + (indexListening+1).ToString() + "/10";
 		}
-		else if(isPractise)
+		else if(isPractice)
 		{
-			title.text = "Practise " + (indexPractise+1).ToString() + "/10";
+			title.text = "Practice " + (indexPractice+1).ToString() + "/10";
 		}
 		else
 		{
@@ -217,6 +220,14 @@ public class MusicPlayer : MonoBehaviour
 		playingScreen.SetActive(false);
 		ratingScreen.SetActive(false);
 		breakScreen.SetActive(true);
+	}
+
+	void GetFinishScreen()
+	{
+		playingScreen.SetActive(false);
+		ratingScreen.SetActive(false);
+		breakScreen.SetActive(false);
+		finishScreen.SetActive(true);
 	}
 
 	void NextMelody()
