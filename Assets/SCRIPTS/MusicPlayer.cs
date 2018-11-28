@@ -14,7 +14,7 @@ public class MusicPlayer : MonoBehaviour
 	public GameObject breakScreen;
 	public GameObject finishScreen;
 	public bool isListening, isPractice, isMajor, isMinor;
-	public int indexListening, indexPractice, index, hadBreaks;
+	public int indexListening, indexPractice, index, fakeIndex, hadBreaks;
 
 	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
 									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
@@ -38,6 +38,7 @@ public class MusicPlayer : MonoBehaviour
 		audioSource = GetComponent<AudioSource>();
 		InitDatabase();
 		index = 0;
+		fakeIndex = 0;
 		indexListening = 0;
 		indexPractice = 0;
 		hadBreaks = 0;
@@ -138,13 +139,21 @@ public class MusicPlayer : MonoBehaviour
 			{
 				isPractice = false;
 			}
+
+			if(index != 0)
+			{
+				fakeIndex++;
+			}
+
 			indexPractice++;
+
 			GetPlayingScreen();
 		}
 		else
 		{
 			csvWriter.Save(currentList[randomInt].name, _rating);
 			index++;
+			fakeIndex++;
 
 			if(index == 192 || index == 192*2 || index == 192*3 || index == 192*4) 
 			{
@@ -164,8 +173,8 @@ public class MusicPlayer : MonoBehaviour
 	public void EndBreak()
 	{
 		breakScreen.SetActive(false);
-		indexListening = 0;
-		isListening = true;
+		indexPractice = 7;
+		isPractice = true;
 		GetPlayingScreen();
 		hadBreaks++;
 	}
@@ -192,11 +201,18 @@ public class MusicPlayer : MonoBehaviour
 		}
 		else if(isPractice)
 		{
-			title.text = "Practice " + (indexPractice+1).ToString() + "/10";
+			if(index == 0)
+			{
+				title.text = "Practice " + (indexPractice+1).ToString() + "/10";
+			}
+			else
+			{
+				title.text = "Trial " + (fakeIndex+1).ToString();
+			}
 		}
 		else
 		{
-			title.text = "Trial " + (index+1).ToString() + "/961";
+			title.text = "Trial " + (fakeIndex+1).ToString();
 		}
 	}
 
