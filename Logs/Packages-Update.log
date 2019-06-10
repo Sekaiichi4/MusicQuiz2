@@ -18,3 +18,11 @@ Update Mode: updateDependencies
 
 The following packages were updated:
   com.unity.analytics from version 3.2.0 to 3.2.2
+
+=== Mon Jun 10 09:53:42 2019
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.2.11 to 1.2.15

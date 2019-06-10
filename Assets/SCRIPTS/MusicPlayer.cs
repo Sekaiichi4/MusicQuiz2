@@ -4,251 +4,280 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MusicPlayer : MonoBehaviour 
+public class MusicPlayer : MonoBehaviour
 {
-	//public List<AudioClip> allAudio;
-	public GameObject playingScreen;
-	public GameObject playButton;
-	public GameObject ratingScreen;
-	public Text title;
-	public GameObject breakScreen;
-	public GameObject finishScreen;
-	public bool isListening, isPractice, isMajor, isMinor;
-	public int indexListening, indexPractice, index, fakeIndex, hadBreaks;
+    //public List<AudioClip> allAudio;
+    public GameObject playingScreen;
+    public GameObject playButton;
+    public GameObject ratingScreen;
+    public Text title;
+    public GameObject breakScreen;
+    public GameObject finishScreen;
+    public bool isListening, isPractice, isMajor, isMinor;
+    public int indexListening, indexPractice, index, fakeIndex, hadBreaks;
 
-	private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
-									"majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
-									"majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};	
-	
-	private string[] minorNames = { "minorA","minorAf","minorAsf","minorAsh","minorAssh","minorB","minorBf","minorBsf","minorBsshCf","minorC","minorCsfBsh",
-									"minorCsh","minorCssh","minorD","minorDf","minorDsf","minorDsh","minorDssh","minorE","minorEf","minorEsf","minorFsfEsh",
-									"minorEsshFf","minorF","minorFsh","minorFssh","minorG","minorGf","minorGsf","minorGsh","minorGssh"};	
-	private List<Song> currentList = new List<Song>();
+    /// <summary>
+    /// "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh","majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh","majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"
+    /// </summary>
+    public bool[] majorList = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+                                false, false, false, false, false, false, false, false, false, false, false, false, false};
 
-	private int randomInt;
+    /// <summary>
+    /// "minorA","minorAf","minorAsf","minorAsh","minorAssh","minorB","minorBf","minorBsf","minorBsshCf","minorC","minorCsfBsh","minorCsh","minorCssh","minorD","minorDf","minorDsf","minorDsh","minorDssh","minorE","minorEf","minorEsf","minorFsfEsh","minorEsshFf","minorF","minorFsh","minorFssh","minorG","minorGf","minorGsf","minorGsh","minorGssh"
+    /// </summary>
+    public bool[] minorList = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
+                                false, false, false, false, false, false, false, false, false, false, false, false, false};
 
-	private AudioSource audioSource;
+    private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
+                                    "majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
+                                    "majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};
 
-	private CsvReadWrite csvWriter;
+    private string[] minorNames = { "minorA","minorAf","minorAsf","minorAsh","minorAssh","minorB","minorBf","minorBsf","minorBsshCf","minorC","minorCsfBsh",
+                                    "minorCsh","minorCssh","minorD","minorDf","minorDsf","minorDsh","minorDssh","minorE","minorEf","minorEsf","minorFsfEsh",
+                                    "minorEsshFf","minorF","minorFsh","minorFssh","minorG","minorGf","minorGsf","minorGsh","minorGssh"};
+    private List<Song> currentList = new List<Song>();
+
+    private int randomInt;
+
+    private AudioSource audioSource;
+
+    private CsvReadWrite csvWriter;
+
+    public SceneSwitcher sSwitcher;
 
 
-	void Start()
-	{
-		MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
-		audioSource = GetComponent<AudioSource>();
-		InitDatabase();
-		index = 0;
-		fakeIndex = 0;
-		indexListening = 0;
-		indexPractice = 0;
-		hadBreaks = 0;
+    void Start()
+    {
+        sSwitcher = GameObject.FindGameObjectWithTag("SceneSwitcher").GetComponent<SceneSwitcher>();
+        majorList = sSwitcher.majorList;
+        minorList = sSwitcher.minorList;
 
-		csvWriter = GetComponent<CsvReadWrite>();
-		csvWriter.Save("Note", "Score");
-		SetTitle();	
+        MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
 
-		//todo: Let CSVWRITER print the first line through a method or something.
-	}
+        audioSource = GetComponent<AudioSource>();
+        InitDatabase();
+        index = 0;
+        fakeIndex = 0;
+        indexListening = 0;
+        indexPractice = 0;
+        hadBreaks = 0;
 
-	public void InitDatabase()
-	{
-		//MAJOR
-		for(int j = 0; j < 31; j++)
-		{
-			for(int i = 1; i <= 31; i++)
-			{
-				AudioClip tune;
+        csvWriter = GetComponent<CsvReadWrite>();
+        csvWriter.Save("Note", "Score");
+        SetTitle();
 
-				if (isMajor)
-				{
-					tune = (AudioClip) Resources.Load("Sounds/major/" + majorNames
-					[j] + "/" + majorNames
-					[j] +i);
-					Song currentSong = new Song(tune, false, tune.name);
-					currentList.Add(currentSong);
-					Debug.Log("Added " + tune.name);
-				}
-				else if (isMinor)
-				{
-					tune = (AudioClip) Resources.Load("Sounds/minor/" + minorNames
-					[j] + "/" + minorNames
-					[j] +i);
-					Song currentSong = new Song(tune, false, tune.name);
-					currentList.Add(currentSong);
-					Debug.Log("Added " + tune.name);
-				}
-			}
-		}
-	}
+        //todo: Let CSVWRITER print the first line through a method or something.
+    }
 
-	public void PlaySong()
-	{
-		if(isListening)
-		{
-			playButton.SetActive(false);
-			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
+    public void InitDatabase()
+    {
+        for (int j = 0; j < 31; j++)
+        {
+            for (int i = 1; i <= 31; i++)
+            {
+                AudioClip tune;
 
-			if(indexListening == 9)
-			{
-				isListening = false;
+                if (isMajor)
+                {
+                    if (majorList[j])
+                    {
+                        tune = (AudioClip)Resources.Load("Sounds/major/" + majorNames
+                        [j] + "/" + majorNames
+                        [j] + i);
+                        Song currentSong = new Song(tune, false, tune.name);
+                        currentList.Add(currentSong);
+                        Debug.Log("Added " + tune.name);
+                    }
+                }
+                if (isMinor)
+                {
+                    if (minorList[j])
+                    {
+                        tune = (AudioClip)Resources.Load("Sounds/minor/" + minorNames
+                        [j] + "/" + minorNames
+                        [j] + i);
+                        Song currentSong = new Song(tune, false, tune.name);
+                        currentList.Add(currentSong);
+                        Debug.Log("Added " + tune.name);
+                    }
+                }
+            }
+        }
+    }
 
-				if(hadBreaks == 0)
-				{
-					isPractice = true;
-				}
-			}
-			Invoke("GetPlayingScreen", currentTune.length+0.25f);
+    public void PlaySong()
+    {
+        if (isListening)
+        {
+            playButton.SetActive(false);
+            AudioClip currentTune = currentList[randomInt].audio;   //Get audio from list at random 
 
-			indexListening++;
-			
-			audioSource.PlayOneShot(currentTune); 
-		}
-		else if(isPractice)
-		{
-			playButton.SetActive(false);
-			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
+            if (indexListening == 9)
+            {
+                isListening = false;
 
-			Invoke("GetRatingScreen", currentTune.length+0.25f);
-			
-			audioSource.PlayOneShot(currentTune); 
-		}
-		else
-		{
-			randomInt = Random.Range(0, currentList.Count);
-			
-			while(currentList[randomInt].played)
-			{
-				randomInt = Random.Range(0, currentList.Count);
-			}
+                if (hadBreaks == 0)
+                {
+                    isPractice = true;
+                }
+            }
+            Invoke("GetPlayingScreen", currentTune.length + 0.25f);
 
-			playButton.SetActive(false);
-			AudioClip currentTune = currentList[randomInt].audio; 	//Get audio from list at random 
-			currentList[randomInt].played = true;					//and enable the bool
+            indexListening++;
 
-			Invoke("GetRatingScreen", currentTune.length+0.25f);
-			
-			audioSource.PlayOneShot(currentTune); 
-		}
-	}
+            audioSource.PlayOneShot(currentTune);
+        }
+        else if (isPractice)
+        {
+            playButton.SetActive(false);
+            AudioClip currentTune = currentList[randomInt].audio;   //Get audio from list at random 
 
-	public void SendRating (string _rating) 
-	{
-		if(isPractice)
-		{
-			if(indexPractice == 9)
-			{
-				isPractice = false;
-			}
+            Invoke("GetRatingScreen", currentTune.length + 0.25f);
 
-			if(index != 0)
-			{
-				fakeIndex++;
-			}
+            audioSource.PlayOneShot(currentTune);
+        }
+        else
+        {
+            randomInt = Random.Range(0, currentList.Count);
 
-			indexPractice++;
+            while (currentList[randomInt].played)
+            {
+                randomInt = Random.Range(0, currentList.Count);
+            }
 
-			GetPlayingScreen();
-		}
-		else
-		{
-			csvWriter.Save(currentList[randomInt].name, _rating);
-			index++;
-			fakeIndex++;
+            playButton.SetActive(false);
+            AudioClip currentTune = currentList[randomInt].audio;   //Get audio from list at random 
+            currentList[randomInt].played = true;                   //and enable the bool
 
-			if(index == 192 || index == 192*2 || index == 192*3 || index == 192*4) 
-			{
-				GetBreakScreen();
-			}
-			else if(index == 961) 
-			{
-				GetFinishScreen();
-			}
-			else
-			{
-				GetPlayingScreen();
-			}
-		}
-	}
+            Invoke("GetRatingScreen", currentTune.length + 0.25f);
 
-	public void EndBreak()
-	{
-		breakScreen.SetActive(false);
-		indexPractice = 7;
-		isPractice = true;
-		GetPlayingScreen();
-		hadBreaks++;
-	}
+            audioSource.PlayOneShot(currentTune);
+        }
+    }
 
-	void MajorOrMinor(int i)
-	{
-		if(i == 0)
-		{
-			isMajor = true;
-			isMinor = false;
-		}
-		else if(i == 1)
-		{
-			isMinor = true;
-			isMajor = false;
-		}
-	}
+    public void SendRating(string _rating)
+    {
+        if (isPractice)
+        {
+            if (indexPractice == 9)
+            {
+                isPractice = false;
+            }
 
-	void SetTitle()
-	{
-		if(isListening)
-		{
-			title.text = "Listening " + (indexListening+1).ToString() + "/10";
-		}
-		else if(isPractice)
-		{
-			if(index == 0)
-			{
-				title.text = "Practice " + (indexPractice+1).ToString() + "/10";
-			}
-			else
-			{
-				title.text = "Trial " + (fakeIndex+1).ToString();
-			}
-		}
-		else
-		{
-			title.text = "Trial " + (fakeIndex+1).ToString();
-		}
-	}
+            if (index != 0)
+            {
+                fakeIndex++;
+            }
 
-	void GetRatingScreen()
-	{
-		playingScreen.SetActive(false);
-		ratingScreen.SetActive(true);
-	}
+            indexPractice++;
 
-	void GetPlayingScreen()
-	{
-		playButton.SetActive(true);
-		NextMelody();
-		ratingScreen.SetActive(false);
-		SetTitle();
-		playingScreen.SetActive(true);
-	}
+            GetPlayingScreen();
+        }
+        else
+        {
+            csvWriter.Save(currentList[randomInt].name, _rating);
+            index++;
+            fakeIndex++;
 
-	void GetBreakScreen()
-	{
-		playingScreen.SetActive(false);
-		ratingScreen.SetActive(false);
-		breakScreen.SetActive(true);
-	}
+            if (index == 192 || index == 192 * 2 || index == 192 * 3 || index == 192 * 4)
+            {
+                GetBreakScreen();
+            }
+            else if (index == currentList.Count)
+            {
+                GetFinishScreen();
+            }
+            else
+            {
+                GetPlayingScreen();
+            }
+        }
+    }
 
-	void GetFinishScreen()
-	{
-		playingScreen.SetActive(false);
-		ratingScreen.SetActive(false);
-		breakScreen.SetActive(false);
-		finishScreen.SetActive(true);
-	}
+    public void EndBreak()
+    {
+        breakScreen.SetActive(false);
+        indexPractice = 7;
+        isPractice = true;
+        GetPlayingScreen();
+        hadBreaks++;
+    }
 
-	void NextMelody()
-	{
-		randomInt = Random.Range(0, currentList.Count);
-	}
+    void MajorOrMinor(int i)
+    {
+        if (i == 0)
+        {
+            isMajor = true;
+            isMinor = false;
+        }
+        else if (i == 1)
+        {
+            isMinor = true;
+            isMajor = false;
+        }
+        else if (i == 2)
+        {
+            isMinor = true;
+            isMajor = true;
+        }
+    }
+
+    void SetTitle()
+    {
+        if (isListening)
+        {
+            title.text = "Listening " + (indexListening + 1).ToString() + "/10";
+        }
+        else if (isPractice)
+        {
+            if (index == 0)
+            {
+                title.text = "Practice " + (indexPractice + 1).ToString() + "/10";
+            }
+            else
+            {
+                title.text = "Trial " + (fakeIndex + 1).ToString();
+            }
+        }
+        else
+        {
+            title.text = "Trial " + (fakeIndex + 1).ToString();
+        }
+    }
+
+    void GetRatingScreen()
+    {
+        playingScreen.SetActive(false);
+        ratingScreen.SetActive(true);
+    }
+
+    void GetPlayingScreen()
+    {
+        playButton.SetActive(true);
+        NextMelody();
+        ratingScreen.SetActive(false);
+        SetTitle();
+        playingScreen.SetActive(true);
+    }
+
+    void GetBreakScreen()
+    {
+        playingScreen.SetActive(false);
+        ratingScreen.SetActive(false);
+        breakScreen.SetActive(true);
+    }
+
+    void GetFinishScreen()
+    {
+        playingScreen.SetActive(false);
+        ratingScreen.SetActive(false);
+        breakScreen.SetActive(false);
+        finishScreen.SetActive(true);
+    }
+
+    void NextMelody()
+    {
+        randomInt = Random.Range(0, currentList.Count);
+    }
 
 }
