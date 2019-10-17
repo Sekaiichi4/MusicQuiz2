@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-	public GameObject MainMenu, ContentSelectionMenu, MajorSection, MinorSection, MixedSection;
+    public GameObject MainMenu, ContentSelectionMenu, MixedSectionParent;
+    public TonalitySection MajorSection, MinorSection;
+    public TonalitySection MixedMajorSection, MixedMinorSection;
+    public int globalTonality;
 
     /// <summary>
     /// "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh","majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh","majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"
@@ -23,31 +26,30 @@ public class SceneSwitcher : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-	public void SwitchScreen(int _index)
-	{
-		MainMenu.SetActive(false);
-		ContentSelectionMenu.SetActive(true);
-		switch (_index)
-		{
-			case 0:
-			MajorSection.SetActive(true);
-			MinorSection.SetActive(false);
-			MixedSection.SetActive(false);
-			break;
+    public void SwitchScreen(int _index)
+    {
+        MainMenu.SetActive(false);
+        ContentSelectionMenu.SetActive(true);
+        switch (_index)
+        {
+            case -1:
+                MajorSection.gameObject.SetActive(false);
+                MinorSection.gameObject.SetActive(false);
+                MixedSectionParent.SetActive(true);
+                break;
+            case 0:
+                MajorSection.gameObject.SetActive(true);
+                MinorSection.gameObject.SetActive(false);
+                MixedSectionParent.SetActive(false);
+                break;
 
-			case 1:
-			MajorSection.SetActive(false);
-			MinorSection.SetActive(true);
-			MixedSection.SetActive(false);
-			break;
-
-			case 2:
-			MajorSection.SetActive(false);
-			MinorSection.SetActive(false);
-			MixedSection.SetActive(true);
-			break;
-		}
-	}
+            case 1:
+                MajorSection.gameObject.SetActive(false);
+                MinorSection.gameObject.SetActive(true);
+                MixedSectionParent.SetActive(false);
+                break;
+        }
+    }
 
     public void SwitchScene(string _name)
     {
@@ -57,19 +59,66 @@ public class SceneSwitcher : MonoBehaviour
 
     public void DecideStart(int i)
     {
-        PlayerPrefs.SetInt("MajorOrMinor", i);
+        PlayerPrefs.SetInt("Tonality", i);
+        globalTonality = i;
     }
 
-    public void ToggleNote(int _index, bool _isMajor)
+    public void ToggleNote(int _index, int _tonality)
     {
-        if (_isMajor)
+        switch (_tonality)
         {
-            majorList[_index] = !majorList[_index];
+            case 0:
+                //Major
+                majorList[_index] = !majorList[_index];
+                break;
+            case 1:
+                //Minor
+                minorList[_index] = !minorList[_index];
+                break;
+            case 2:
+                //
+                break;
         }
-		else
-		{
-			minorList[_index] = !minorList[_index];
-		}
+    }
+
+    public void ToggleAllNotes(int _tonality)
+    {
+        switch (_tonality)
+        {
+            case 0:
+                //Major
+                for (int i = 0; i < majorList.Length; i++)
+                {
+                    majorList[i] = !majorList[i];
+                }
+                if (globalTonality == -1)
+                {
+                    MixedMajorSection.ToggleAll();
+                }
+                else
+                {
+                    MajorSection.ToggleAll();
+                }
+                break;
+            case 1:
+                //Minor
+                for (int i = 0; i < minorList.Length; i++)
+                {
+                    minorList[i] = !minorList[i];
+                }
+                if (globalTonality == -1)
+                {
+                    MixedMinorSection.ToggleAll();
+                }
+                else
+                {
+                    MinorSection.ToggleAll();
+                }
+                break;
+            case 2:
+                //
+                break;
+        }
     }
 }
 

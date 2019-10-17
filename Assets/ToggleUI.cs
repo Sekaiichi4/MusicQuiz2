@@ -6,7 +6,7 @@ public class ToggleUI : MonoBehaviour
 {
     public GameObject checkMark;
     public SceneSwitcher sSwitcher;
-    public bool isMajor;
+    public int tonality;
     // Start is called before the first frame update
     public void ToggleCheckMark()
     {
@@ -14,7 +14,14 @@ public class ToggleUI : MonoBehaviour
     }
 
     public void ToggleNote(int _index)
-	{
-		sSwitcher.ToggleNote(_index, isMajor);
-	}
+    {
+        if (_index != -1)
+        {
+            sSwitcher.ToggleNote(_index, tonality);
+        }
+        else
+        {
+            sSwitcher.ToggleAllNotes(tonality);
+        }
+    }
 }
