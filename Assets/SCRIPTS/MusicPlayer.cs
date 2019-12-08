@@ -67,8 +67,8 @@ public class MusicPlayer : MonoBehaviour
         MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
 
         audioSource = GetComponent<AudioSource>();
+        initKeysDatabase(); //TODO CHECK DATABASE FOR TRUE VALUE BEFORE INITING
         InitDatabase();
-        initKeysDatabase();
         index = 0;
         fakeIndex = 0;
         indexListening = 0;
@@ -120,15 +120,15 @@ public class MusicPlayer : MonoBehaviour
 
     public void initKeysDatabase()
     {
-        for (int j = 1; j < 8; j++)
+        for (int j = 1; j <= 7; j++)
         {
-            for (int i = 1; i < 31; i++)
+            for (int i = 1; i <= 31; i++)
             {
                 AudioClip tune;
 
                 if (isKc)
                 {
-                    if (KcList[j])
+                    if (KcList[j - 1])
                     {
                         tune = (AudioClip)Resources.Load("Sounds/Kc/KcT" +
                         j + "N" + i);
@@ -140,7 +140,7 @@ public class MusicPlayer : MonoBehaviour
 
                 if (isKe)
                 {
-                    if (KeList[j])
+                    if (KeList[j - 1])
                     {
                         tune = (AudioClip)Resources.Load("Sounds/Ke/KeT" +
                         j + "N" + i);
@@ -152,7 +152,7 @@ public class MusicPlayer : MonoBehaviour
 
                 if (isKgsh)
                 {
-                    if (KgshList[j])
+                    if (KgshList[j - 1])
                     {
                         tune = (AudioClip)Resources.Load("Sounds/Kgsh/KgshT" +
                         j + "N" + i);
@@ -265,22 +265,13 @@ public class MusicPlayer : MonoBehaviour
 
     void MajorOrMinor(int i)
     {
-        if (i == 0)
-        {
-            isMajor = true;
-        }
-        else if (i == 1)
-        {
-            isMinor = true;
-        }
-        else if (i == 2)
-        {
-            isMinor = true;
-            isMajor = true;
-            isKc = true;
-            isKe = true;
-            isKgsh = true;
-        }
+
+        isMinor = true;
+        isMajor = true;
+        isKc = true;
+        isKe = true;
+        isKgsh = true;
+
     }
 
     void SetTitle()

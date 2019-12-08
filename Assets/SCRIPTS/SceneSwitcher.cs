@@ -23,11 +23,11 @@ public class SceneSwitcher : MonoBehaviour
                                 false, false, false, false, false, false, false, false, false, false, false, false, false};
 
     //Tonality 2
-    public bool[] KcList = { false, false, false, false, false, false, false, };
+    public bool[] KcList = { false, false, false, false, false, false, false };
     //Tonality 3
-    public bool[] KeList = { false, false, false, false, false, false, false, };
+    public bool[] KeList = { false, false, false, false, false, false, false };
     //Tonality 4
-    public bool[] KgshList = { false, false, false, false, false, false, false, };
+    public bool[] KgshList = { false, false, false, false, false, false, false };
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -113,7 +113,7 @@ public class SceneSwitcher : MonoBehaviour
                 }
                 else
                 {
-                    MajorSection.ToggleAll();
+                    // MajorSection.ToggleAll();
                 }
                 break;
             case 1:
@@ -128,7 +128,7 @@ public class SceneSwitcher : MonoBehaviour
                 }
                 else
                 {
-                    MinorSection.ToggleAll();
+                    // MinorSection.ToggleAll();
                 }
                 break;
             case 2:
