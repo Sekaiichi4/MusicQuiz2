@@ -13,7 +13,7 @@ public class MusicPlayer : MonoBehaviour
     public Text title;
     public GameObject breakScreen;
     public GameObject finishScreen;
-    public bool isListening, isPractice, isMajor, isMinor;
+    public bool isListening, isPractice, isMajor, isMinor, isKc, isKe, isKgsh;
     public int indexListening, indexPractice, index, fakeIndex, hadBreaks;
 
     /// <summary>
@@ -28,6 +28,13 @@ public class MusicPlayer : MonoBehaviour
     public bool[] minorList = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,
                                 false, false, false, false, false, false, false, false, false, false, false, false, false};
 
+    //Tonality 2
+    public bool[] KcList = { false, false, false, false, false, false, false, };
+    //Tonality 3
+    public bool[] KeList = { false, false, false, false, false, false, false, };
+    //Tonality 4
+    public bool[] KgshList = { false, false, false, false, false, false, false, };
+
     private string[] majorNames = { "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh",
                                     "majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh",
                                     "majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"};
@@ -35,6 +42,7 @@ public class MusicPlayer : MonoBehaviour
     private string[] minorNames = { "minorA","minorAf","minorAsf","minorAsh","minorAssh","minorB","minorBf","minorBsf","minorBsshCf","minorC","minorCsfBsh",
                                     "minorCsh","minorCssh","minorD","minorDf","minorDsf","minorDsh","minorDssh","minorE","minorEf","minorEsf","minorFsfEsh",
                                     "minorEsshFf","minorF","minorFsh","minorFssh","minorG","minorGf","minorGsf","minorGsh","minorGssh"};
+
     private List<Song> currentList = new List<Song>();
 
     private int randomInt;
@@ -51,11 +59,16 @@ public class MusicPlayer : MonoBehaviour
         sSwitcher = GameObject.FindGameObjectWithTag("SceneSwitcher").GetComponent<SceneSwitcher>();
         majorList = sSwitcher.majorList;
         minorList = sSwitcher.minorList;
+        KcList = sSwitcher.KcList;
+        KeList = sSwitcher.KeList;
+        KgshList = sSwitcher.KgshList;
+
 
         MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
 
         audioSource = GetComponent<AudioSource>();
         InitDatabase();
+        initKeysDatabase();
         index = 0;
         fakeIndex = 0;
         indexListening = 0;
@@ -96,6 +109,53 @@ public class MusicPlayer : MonoBehaviour
                         tune = (AudioClip)Resources.Load("Sounds/minor/" + minorNames
                         [j] + "/" + minorNames
                         [j] + i);
+                        Song currentSong = new Song(tune, false, tune.name);
+                        currentList.Add(currentSong);
+                        Debug.Log("Added " + tune.name);
+                    }
+                }
+            }
+        }
+    }
+
+    public void initKeysDatabase()
+    {
+        for (int j = 1; j < 8; j++)
+        {
+            for (int i = 1; i < 31; i++)
+            {
+                AudioClip tune;
+
+                if (isKc)
+                {
+                    if (KcList[j])
+                    {
+                        tune = (AudioClip)Resources.Load("Sounds/Kc/KcT" +
+                        j + "N" + i);
+                        Song currentSong = new Song(tune, false, tune.name);
+                        currentList.Add(currentSong);
+                        Debug.Log("Added " + tune.name);
+                    }
+                }
+
+                if (isKe)
+                {
+                    if (KeList[j])
+                    {
+                        tune = (AudioClip)Resources.Load("Sounds/Ke/KeT" +
+                        j + "N" + i);
+                        Song currentSong = new Song(tune, false, tune.name);
+                        currentList.Add(currentSong);
+                        Debug.Log("Added " + tune.name);
+                    }
+                }
+
+                if (isKgsh)
+                {
+                    if (KgshList[j])
+                    {
+                        tune = (AudioClip)Resources.Load("Sounds/Kgsh/KgshT" +
+                        j + "N" + i);
                         Song currentSong = new Song(tune, false, tune.name);
                         currentList.Add(currentSong);
                         Debug.Log("Added " + tune.name);
@@ -208,17 +268,18 @@ public class MusicPlayer : MonoBehaviour
         if (i == 0)
         {
             isMajor = true;
-            isMinor = false;
         }
         else if (i == 1)
         {
             isMinor = true;
-            isMajor = false;
         }
         else if (i == 2)
         {
             isMinor = true;
             isMajor = true;
+            isKc = true;
+            isKe = true;
+            isKgsh = true;
         }
     }
 
