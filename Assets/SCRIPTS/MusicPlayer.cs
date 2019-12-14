@@ -14,7 +14,7 @@ public class MusicPlayer : MonoBehaviour
     public GameObject breakScreen;
     public GameObject finishScreen;
     public bool isListening, isPractice, isMajor, isMinor, isKc, isKe, isKgsh;
-    public int indexListening, indexPractice, index, fakeIndex, hadBreaks;
+    public int indexListening, indexPractice, index, fakeIndex, hadBreaks, experimentMode;
 
     /// <summary>
     /// "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh","majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh","majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"
@@ -64,11 +64,19 @@ public class MusicPlayer : MonoBehaviour
         KgshList = sSwitcher.KgshList;
 
 
-        MajorOrMinor(PlayerPrefs.GetInt("MajorOrMinor"));
+        SetMode(PlayerPrefs.GetInt("Mode"));
 
         audioSource = GetComponent<AudioSource>();
-        initKeysDatabase(); //TODO CHECK DATABASE FOR TRUE VALUE BEFORE INITING
-        InitDatabase();
+
+        if (experimentMode == 0)
+        {
+            InitTonalityDatabase();
+        }
+        else if (experimentMode == 1)
+        {
+            initKeysDatabase();
+        }
+
         index = 0;
         fakeIndex = 0;
         indexListening = 0;
@@ -76,13 +84,12 @@ public class MusicPlayer : MonoBehaviour
         hadBreaks = 0;
 
         csvWriter = GetComponent<CsvReadWrite>();
-        csvWriter.Save("Note", "Score");
-        SetTitle();
+        csvWriter.Save("Note", "Score");//TODO Let CSVWRITER print the first line through a method or something.
 
-        //todo: Let CSVWRITER print the first line through a method or something.
+        SetTitle();
     }
 
-    public void InitDatabase()
+    public void InitTonalityDatabase()
     {
         for (int j = 0; j < 31; j++)
         {
@@ -238,19 +245,37 @@ public class MusicPlayer : MonoBehaviour
             csvWriter.Save(currentList[randomInt].name, _rating);
             index++;
             fakeIndex++;
+            if (experimentMode == 0)
+            {
+                if (index == 192 || index == 192 * 2 || index == 192 * 3 || index == 192 * 4)
+                {
+                    GetBreakScreen();
+                }
+                else if (index == currentList.Count)
+                {
+                    GetFinishScreen();
+                }
+                else
+                {
+                    GetPlayingScreen();
+                }
+            }
+            else if (experimentMode == 1)
+            {
+                if (index == 130 || index == 130 * 2 || index == 130 * 3 || index == 130 * 4)
+                {
+                    GetBreakScreen();
+                }
+                else if (index == currentList.Count)
+                {
+                    GetFinishScreen();
+                }
+                else
+                {
+                    GetPlayingScreen();
+                }
+            }
 
-            if (index == 192 || index == 192 * 2 || index == 192 * 3 || index == 192 * 4)
-            {
-                GetBreakScreen();
-            }
-            else if (index == currentList.Count)
-            {
-                GetFinishScreen();
-            }
-            else
-            {
-                GetPlayingScreen();
-            }
         }
     }
 
@@ -263,15 +288,21 @@ public class MusicPlayer : MonoBehaviour
         hadBreaks++;
     }
 
-    void MajorOrMinor(int i)
+    void SetMode(int i)
     {
-
-        isMinor = true;
-        isMajor = true;
-        isKc = true;
-        isKe = true;
-        isKgsh = true;
-
+        if (i == 0) //Experiment 1
+        {
+            experimentMode = i;
+            isMinor = true;
+            isMajor = true;
+        }
+        else if (i == 1) //Experiment 2
+        {
+            experimentMode = i;
+            isKc = true;
+            isKe = true;
+            isKgsh = true;
+        }
     }
 
     void SetTitle()

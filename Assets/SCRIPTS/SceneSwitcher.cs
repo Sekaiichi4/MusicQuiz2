@@ -5,10 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
 {
-    public GameObject MainMenu, ContentSelectionMenu, MixedSectionParent;
-    public TonalitySection MajorSection, MinorSection;
+    public GameObject MainMenu, ContentSelectionMenu, Experiment1SectionParent, Experiment2SectionParent;
     public TonalitySection MixedMajorSection, MixedMinorSection, KcSection, KeSection, KgshSection;
-    public int globalTonality;
+    public int experimentMode;
 
     /// <summary>
     /// "majorA","majorAf","majorAsf","majorAsh","majorAssh","majorB","majorBf","majorBsf","majorBsshCf","majorC","majorCsfBsh","majorCsh","majorCssh","majorD","majorDf","majorDsf","majorDsh","majorDssh","majorE","majorEf","majorEsf","majorFsfEsh","majorEsshFf","majorF","majorFsh","majorFssh","majorG","majorGf","majorGsf","majorGsh","majorGssh"
@@ -39,21 +38,14 @@ public class SceneSwitcher : MonoBehaviour
         ContentSelectionMenu.SetActive(true);
         switch (_index)
         {
-            case -1:
-                MajorSection.gameObject.SetActive(false);
-                MinorSection.gameObject.SetActive(false);
-                MixedSectionParent.SetActive(true);
-                break;
             case 0:
-                MajorSection.gameObject.SetActive(true);
-                MinorSection.gameObject.SetActive(false);
-                MixedSectionParent.SetActive(false);
+                Experiment2SectionParent.SetActive(false);
+                Experiment1SectionParent.SetActive(true);
                 break;
 
             case 1:
-                MajorSection.gameObject.SetActive(false);
-                MinorSection.gameObject.SetActive(true);
-                MixedSectionParent.SetActive(false);
+                Experiment2SectionParent.SetActive(true);
+                Experiment1SectionParent.SetActive(false);
                 break;
         }
     }
@@ -66,13 +58,13 @@ public class SceneSwitcher : MonoBehaviour
 
     public void DecideStart(int i)
     {
-        PlayerPrefs.SetInt("Tonality", i);
-        globalTonality = i;
+        PlayerPrefs.SetInt("Mode", i);
+        experimentMode = i;
     }
 
-    public void ToggleNote(int _index, int _tonality)
+    public void ToggleNote(int _index, int _tonalityOrKey)
     {
-        switch (_tonality)
+        switch (_tonalityOrKey)
         {
             case 0:
                 //Major
@@ -97,9 +89,9 @@ public class SceneSwitcher : MonoBehaviour
         }
     }
 
-    public void ToggleAllNotes(int _tonality)
+    public void ToggleAllNotes(int _tonalityOrKey)
     {
-        switch (_tonality)
+        switch (_tonalityOrKey)
         {
             case 0:
                 //Major
@@ -107,14 +99,7 @@ public class SceneSwitcher : MonoBehaviour
                 {
                     majorList[i] = !majorList[i];
                 }
-                if (globalTonality == -1)
-                {
-                    MixedMajorSection.ToggleAll();
-                }
-                else
-                {
-                    // MajorSection.ToggleAll();
-                }
+                MixedMajorSection.ToggleAll();
                 break;
             case 1:
                 //Minor
@@ -122,14 +107,7 @@ public class SceneSwitcher : MonoBehaviour
                 {
                     minorList[i] = !minorList[i];
                 }
-                if (globalTonality == -1)
-                {
-                    MixedMinorSection.ToggleAll();
-                }
-                else
-                {
-                    // MinorSection.ToggleAll();
-                }
+                MixedMinorSection.ToggleAll();
                 break;
             case 2:
                 //Kc
@@ -137,13 +115,7 @@ public class SceneSwitcher : MonoBehaviour
                 {
                     KcList[i] = !KcList[i];
                 }
-                if (globalTonality == -1)
-                {
-                    KcSection.ToggleAll();
-                }
-                else
-                {
-                }
+                KcSection.ToggleAll();
                 break;
             case 3:
                 //Kc
@@ -151,13 +123,7 @@ public class SceneSwitcher : MonoBehaviour
                 {
                     KeList[i] = !KeList[i];
                 }
-                if (globalTonality == -1)
-                {
-                    KeSection.ToggleAll();
-                }
-                else
-                {
-                }
+                KeSection.ToggleAll();
                 break;
             case 4:
                 //Kc
@@ -165,13 +131,7 @@ public class SceneSwitcher : MonoBehaviour
                 {
                     KgshList[i] = !KgshList[i];
                 }
-                if (globalTonality == -1)
-                {
-                    KgshSection.ToggleAll();
-                }
-                else
-                {
-                }
+                KgshSection.ToggleAll();
                 break;
         }
     }
