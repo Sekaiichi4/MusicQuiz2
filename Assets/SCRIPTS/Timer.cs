@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-	public Text timerText;
+    public Text timerText;
     private float timerTime;
-    private int pastSeconds, pastMinutes; 
+    public int pastSeconds, pastMinutes;
     private int setSeconds, setMinutes;
 
     void Update()
     {
-        if(pastMinutes == 2 && pastSeconds == 59)
+        if (pastMinutes == 2 && pastSeconds == 59)
         {
             //Let Button Appear?
         }
@@ -23,16 +23,19 @@ public class Timer : MonoBehaviour
             pastSeconds = (int)(timerTime % 60);
             pastMinutes = (int)(timerTime / 60) % 60;
 
-            string timerString = string.Format("{0:00}:{1:00}", (setMinutes-pastMinutes), (setSeconds-pastSeconds));
+            string timerString = string.Format("{0:00}:{1:00}", (setMinutes - pastMinutes), (setSeconds - pastSeconds));
 
             timerText.text = timerString;
         }
-        
+
     }
 
-    void OnEnable()
+    public void OnEnable()
     {
         setSeconds = 59;
         setMinutes = 2;
+        pastMinutes = 0;
+        pastSeconds = 0;
+        timerTime = 0;
     }
 }
